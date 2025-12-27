@@ -1,9 +1,9 @@
-# @mkzz/teh - API Quick Reference
+# teh-bot - API Quick Reference
 
 ## Installation & Setup
 
 ```javascript
-const TelegramBot = require('@mkzz/teh');
+const TelegramBot = require('teh-bot');
 const bot = new TelegramBot('YOUR_BOT_TOKEN', { polling: true });
 ```
 
@@ -437,7 +437,7 @@ process.on('SIGINT', () => {
 ## TypeScript Support
 
 ```typescript
-import TelegramBot, { Context, Message } from '@mkzz/teh'
+import TelegramBot, { Context, Message } from 'teh-bot'
 
 const bot = new TelegramBot(token, { polling: true })
 
@@ -470,7 +470,7 @@ bot.on('text', (message: Message, ctx: Context) => {
 ## Example: Complete Bot
 
 ```javascript
-const TelegramBot = require('@mkzz/teh')
+const TelegramBot = require('teh-bot')
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true })
 
 // Middleware
@@ -514,7 +514,7 @@ process.on('SIGINT', () => {
 
 - [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 - [GitHub Repository](https://github.com/kazedevid/teh)
-- [npm Package](https://www.npmjs.com/package/@mkzz/teh)
+- [npm Package](https://www.npmjs.com/package/teh-bot)
 
 ---
 

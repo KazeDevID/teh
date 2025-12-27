@@ -1,6 +1,6 @@
-# @mkzz/teh - Lightweight Telegram Bot API
+# teh-bot - Lightweight Telegram Bot API
 
-[![npm version](https://img.shields.io/npm/v/teh.svg)](https://www.npmjs.com/package/@mkzz/teh)
+[![npm version](https://img.shields.io/npm/v/teh.svg)](https://www.npmjs.com/package/teh-bot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight, high-performance Telegram Bot API module with **zero dependencies**. Built for speed, stability, and simplicity.
@@ -21,13 +21,13 @@ A lightweight, high-performance Telegram Bot API module with **zero dependencies
 ## Installation
 
 ```bash
-npm install @mkzz/teh
+npm install teh-bot
 ```
 
 ## Quick Start
 
 ```javascript
-const TelegramBot = require('@mkzz/teh');
+const TelegramBot = require('teh-bot');
 
 const bot = new TelegramBot('YOUR_BOT_TOKEN', {
   polling: true
@@ -60,7 +60,7 @@ bot.on('text', async (message, ctx) => {
 ### Initializing the Bot
 
 ```javascript
-const TelegramBot = require('@mkzz/teh');
+const TelegramBot = require('teh-bot');
 
 const bot = new TelegramBot('YOUR_BOT_TOKEN', {
   polling: true,

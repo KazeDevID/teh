@@ -1,5 +1,5 @@
 {
-  "name": "@mkzz/teh",
+  "name": "teh-bot",
   "version": "1.0.0",
   "description": "Lightweight, high-performance Telegram Bot API module with zero dependencies",
   "keywords": [
