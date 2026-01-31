@@ -1,10 +1,10 @@
-const https = require("https")
-const http = require("http")
-const { EventEmitter } = require("events")
-const { createReadStream, statSync, createWriteStream, promises: fsPromises } = require("fs")
-const { basename, extname } = require("path")
-const { URL } = require("url")
-const { Stream, Readable } = require("stream")
+import https from "https"
+import http from "http"
+import { EventEmitter } from "events"
+import { createReadStream, statSync, createWriteStream, promises: fsPromises } from "fs"
+import { basename, extname } from "path"
+import { URL } from "url"
+import { Stream, Readable } from "stream"
 
 const DEFAULT_OPTIONS = {
   polling: false,
@@ -996,7 +996,7 @@ class ReplyKeyboardBuilder {
   }
 }
 
-module.exports = TelegramBot
-module.exports.TelegramBot = TelegramBot
-module.exports.InlineKeyboardBuilder = InlineKeyboardBuilder
-module.exports.ReplyKeyboardBuilder = ReplyKeyboardBuilder
+export default TelegramBot
+export { TelegramBot as TelegramBot }
+export { InlineKeyboardBuilder as InlineKeyboardBuilder }
+export { ReplyKeyboardBuilder as ReplyKeyboardBuilder }
