@@ -1,6 +1,6 @@
 {
   "name": "teh-bot",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Lightweight, high-performance Telegram Bot API library with zero dependencies. Supports polling, webhooks, and all Telegram Bot API methods.",
   "keywords": [
     "telegram",
@@ -40,8 +40,7 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "scripts": {
     "build": "node scripts/build.cjs",
