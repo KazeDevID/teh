@@ -1,6 +1,6 @@
 # 🤖 Teh Bot - Lightweight Telegram Bot API Library
 
-![Version](https://img.shields.io/badge/version-1.0.5-blue)
+![Version](https://img.shields.io/badge/version-1.0.7-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Node.js](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)
 ![npm](https://img.shields.io/badge/npm-teh--bot-red)
