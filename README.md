@@ -1,575 +1,782 @@
-# TehBot Library
+# 🤖 Teh Bot - Lightweight Telegram Bot API Library
 
-> High-performance, zero-dependency Telegram Bot API library for Node.js with full Bot API v9.3 support.
+![Version](https://img.shields.io/badge/version-1.0.5-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Node.js](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)
+![npm](https://img.shields.io/badge/npm-teh--bot-red)
 
-[![npm version](https://img.shields.io/npm/v/teh-bot.svg)](https://www.npmjs.com/package/teh-bot)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node Version](https://img.shields.io/node/v/teh-bot)](https://nodejs.org)
-[![API Version](https://img.shields.io/badge/Telegram%20Bot%20API-v9.3-blue)](https://core.telegram.org/bots/api)
+A lightweight, high-performance, **zero-dependency** Telegram Bot API library for Node.js. Built with modern JavaScript standards supporting both **CommonJS** and **ES Modules (ESM)**, with full **TypeScript** support.
 
-## Features
+## ✨ Features
 
-- **Zero Dependencies** - Pure Node.js implementation with no external packages
-- **Full API v9.3 Coverage** - Support for all latest Telegram Bot API features including Gifts, Forum Topics, Message Drafts, and Payments
-- **High Performance** - Direct HTTPS communication with efficient request handling and streaming multipart uploads
-- **TypeScript Ready** - Complete type definitions for superior developer experience
-- **Flexible Architecture** - Supports both polling and webhooks out of the box
-- **Context-Aware** - Simplified message handling with rich context objects
-- **Middleware System** - Extensible middleware pipeline for custom logic
-- **Keyboard Builders** - Fluent API for creating inline and reply keyboards
-- **File Handling** - Seamless upload/download from files, URLs, buffers, and streams
+- ✅ **Zero Dependencies** - No external packages required
+- ✅ **Dual Module Support** - Works with CommonJS (.cjs), ES Modules (.mjs), and TypeScript (.ts)
+- ✅ **Type-Safe** - Full TypeScript definitions included
+- ✅ **Lightweight** - Ultra-minimal footprint (~50KB)
+- ✅ **High-Performance** - Optimized for speed and efficiency
+- ✅ **Polling & Webhook** - Support for both update methods
+- ✅ **Event-Driven** - Chainable API with EventEmitter
+- ✅ **Middleware Support** - Extensible middleware system
+- ✅ **File Handling** - Easy file upload/download
+- ✅ **Media Support** - Photos, videos, audio, documents, stickers, animations, voice messages
+- ✅ **Keyboard Builders** - Fluent API for inline and reply keyboards
+- ✅ **Full Telegram Bot API Support** - All official API methods implemented
+- ✅ **Chat Management** - Ban, restrict, promote members with ease
+- ✅ **Query Handling** - Inline queries, callback queries, poll answers
+- ✅ **Context Helpers** - Simple reply(), send(), and media methods
+- ✅ **Error Handling** - Comprehensive error information
 
-## Installation
+## 📦 Installation
 
+### Using npm
 ```bash
 npm install teh-bot
 ```
 
-Or using yarn:
-
+### Using yarn
 ```bash
 yarn add teh-bot
 ```
 
-## Quick Start
+### Using pnpm
+```bash
+pnpm add teh-bot
+```
 
+## 🚀 Quick Start
+
+### CommonJS (.js)
 ```javascript
 const TelegramBot = require('teh-bot');
 
-const bot = new TelegramBot('YOUR_BOT_TOKEN', {
-  polling: true
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
+  polling: true,
 });
 
-// Respond to text messages
-bot.on('text', async (message, ctx) => {
-  await ctx.reply(`You said: ${message.text}`);
-});
-
-// Handle commands
 bot.command('/start', async (ctx) => {
-  await ctx.send('Welcome! I am your bot.');
+  await ctx.send('👋 Hello! I am Teh Bot!');
 });
 
-console.log('Bot is running...');
-```
+bot.on('text', async (message, ctx) => {
+  console.log('Message:', message.text);
+});
 
-## Core Concepts
-
-### Initialization
-
-Create a bot instance with configuration options:
-
-```javascript
-const bot = new TelegramBot('YOUR_BOT_TOKEN', {
-  polling: true,              // Enable automatic polling
-  pollingInterval: 1000,      // Poll every 1 second
-  pollingTimeout: 30,         // Long polling timeout
-  webhook: false,             // Use webhooks instead of polling
-  webhookPort: 3000,          // Webhook server port
-  webhookPath: '/webhook',    // Webhook endpoint path
-  requestTimeout: 30000,      // Request timeout in milliseconds
-  baseApiUrl: 'https://api.telegram.org',
-  apiVersion: '9.3'
+bot.on('polling_start', () => {
+  console.log('✅ Bot started polling');
 });
 ```
 
-### Polling vs Webhooks
-
-**Polling** (recommended for development):
+### ES Modules (.mjs)
 ```javascript
-const bot = new TelegramBot(token, { polling: true });
+import TelegramBot from 'teh-bot';
 
-bot.on('polling_start', () => console.log('Polling started'));
-bot.on('polling_error', (err) => console.error('Polling error:', err));
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {
+  polling: true,
+});
+
+bot.command('/start', async (ctx) => {
+  await ctx.send('👋 Hello! I am Teh Bot!');
+});
+
+bot.on('text', async (message, ctx) => {
+  console.log('Message:', message.text);
+});
+
+bot.on('polling_start', () => {
+  console.log('✅ Bot started polling');
+});
 ```
 
-**Webhooks** (recommended for production):
+### TypeScript (.ts)
+```typescript
+import TelegramBot, { Context } from 'teh-bot';
+
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN || '', {
+  polling: true,
+});
+
+bot.command('/start', async (ctx: Context) => {
+  await ctx.send('👋 Hello! I am Teh Bot!');
+});
+
+bot.on('text', async (message, ctx: Context) => {
+  console.log('Message:', message.text);
+});
+
+bot.on('polling_start', () => {
+  console.log('✅ Bot started polling');
+});
+```
+
+## ⚙️ Configuration
+
+### BotOptions
 ```javascript
 const bot = new TelegramBot(token, {
-  webhook: true,
-  webhookPort: 8443,
-  webhookPath: '/bot-webhook'
-});
+  // Polling
+  polling: true,                    // Enable polling (default: false)
+  pollingInterval: 1000,            // Polling interval in ms (default: 1000)
+  pollingTimeout: 30,               // Long polling timeout (default: 30)
 
-await bot.setWebhook('https://yourdomain.com/bot-webhook');
-```
+  // Webhook
+  webhook: false,                   // Enable webhook (default: false)
+  webhookPort: 3000,                // Webhook server port (default: 3000)
+  webhookPath: '/webhook',          // Webhook path (default: '/webhook')
 
-### Context Object
-
-The context object provides convenient access to update data and helper methods:
-
-```javascript
-bot.on('message', async (message, ctx) => {
-  // Access update components
-  console.log(ctx.message);  // Current message
-  console.log(ctx.chat);     // Chat information
-  console.log(ctx.from);     // User who sent message
-  
-  // Helper methods
-  await ctx.send('Hello!');
-  await ctx.reply('Reply to this message');
-  await ctx.replyWithPhoto('photo.jpg');
-  await ctx.editMessageText('Updated text');
-  await ctx.answerCallbackQuery({ text: 'Success!' });
+  // General
+  requestTimeout: 30000,            // Request timeout in ms (default: 30000)
+  maxConnections: 40,               // Max concurrent connections (default: 40)
+  allowedUpdates: [],               // Array of allowed update types (default: [])
+  baseApiUrl: 'https://api.telegram.org', // Custom API URL (default)
 });
 ```
 
-### Middleware
+## 📚 API Reference
 
-Add middleware functions to process updates:
+### Core Methods
 
-```javascript
-// Logger middleware
-bot.use(async (ctx, next) => {
-  console.log('Update:', ctx.update.update_id);
-  await next();
-});
-
-// Authentication middleware
-bot.use(async (ctx, next) => {
-  if (ctx.from?.id === ADMIN_ID) {
-    await next();
-  } else {
-    await ctx.reply('Unauthorized');
-  }
-});
-```
-
-## Sending Messages
-
-### Text Messages
+#### Sending Messages
 
 ```javascript
-// Simple text
-await bot.sendMessage(chatId, 'Hello, World!');
-
-// With formatting
-await bot.sendMessage(chatId, '**Bold** and *italic*', {
-  parse_mode: 'Markdown'
-});
-
-// HTML formatting
-await bot.sendMessage(chatId, '<b>Bold</b> and <i>italic</i>', {
-  parse_mode: 'HTML'
-});
-```
-
-### Media Messages
-
-```javascript
-// Photo
-await bot.sendPhoto(chatId, 'photo.jpg', {
-  caption: 'Beautiful photo!'
-});
-
-// Video
-await bot.sendVideo(chatId, 'video.mp4', {
-  caption: 'Check this out',
-  supports_streaming: true
-});
-
-// Document
-await bot.sendDocument(chatId, 'report.pdf', {
-  caption: 'Monthly report'
-});
-
-// Audio
-await bot.sendAudio(chatId, 'song.mp3', {
-  title: 'Song Title',
-  performer: 'Artist Name'
-});
-
-// Location
-await bot.sendLocation(chatId, 37.7749, -122.4194);
-
-// Poll
-await bot.sendPoll(chatId, 'What is your favorite color?', [
-  'Red', 'Blue', 'Green', 'Yellow'
-]);
-```
-
-### Unified sendMessage
-
-Send text or media using a single method:
-
-```javascript
-// Text
+// Send text message
 await bot.sendMessage(chatId, 'Hello!');
 
-// Photo with caption
-await bot.sendMessage(chatId, {
-  image: 'photo.jpg',
-  caption: 'Nice photo'
+// Send text with options
+await bot.sendMessage(chatId, 'Hello!', {
+  parse_mode: 'HTML',
+  reply_markup: keyboard,
 });
 
-// Video
-await bot.sendMessage(chatId, {
-  video: 'video.mp4',
-  caption: 'Tutorial video'
-});
+// Send media
+await bot.sendPhoto(chatId, photoBuffer, { caption: 'Photo!' });
+await bot.sendVideo(chatId, videoPath);
+await bot.sendAudio(chatId, audioBuffer);
+await bot.sendDocument(chatId, '/path/to/file.pdf');
+await bot.sendAnimation(chatId, animationUrl);
+await bot.sendVoice(chatId, voiceBuffer);
+await bot.sendVideoNote(chatId, videoNoteBuffer);
+await bot.sendSticker(chatId, stickerFileId);
+
+// Send location
+await bot.sendLocation(chatId, latitude, longitude);
+
+// Send venue
+await bot.sendVenue(chatId, lat, lon, 'Title', 'Address');
+
+// Send contact
+await bot.sendContact(chatId, '+1234567890', 'John');
+
+// Send poll
+await bot.sendPoll(chatId, 'Question?', ['Option 1', 'Option 2', 'Option 3']);
+
+// Send dice/game
+await bot.sendDice(chatId);
+
+// Send chat action (e.g., typing)
+await bot.sendChatAction(chatId, 'typing');
 ```
 
-## Message Management
+#### Message Management
 
 ```javascript
 // Edit message
-await bot.editMessageText('Updated text', {
+await bot.editMessageText('New text', {
   chat_id: chatId,
-  message_id: messageId
+  message_id: messageId,
+  parse_mode: 'HTML',
+});
+
+// Edit caption
+await bot.editMessageCaption({
+  chat_id: chatId,
+  message_id: messageId,
+  caption: 'New caption',
+});
+
+// Edit reply markup
+await bot.editMessageReplyMarkup({
+  chat_id: chatId,
+  message_id: messageId,
+  reply_markup: newKeyboard,
 });
 
 // Delete message
 await bot.deleteMessage(chatId, messageId);
 
 // Forward message
-await bot.forwardMessage(toChatId, fromChatId, messageId);
+await bot.forwardMessage(chatId, fromChatId, messageId);
 
-// Copy message (without forward header)
-await bot.copyMessage(toChatId, fromChatId, messageId);
+// Copy message
+await bot.copyMessage(chatId, fromChatId, messageId);
 ```
 
-## Keyboards
-
-### Inline Keyboards
+#### Chat Management
 
 ```javascript
-const { InlineKeyboardBuilder } = require('teh-bot');
-
-const keyboard = new InlineKeyboardBuilder()
-  .text('Button 1', 'callback_1')
-  .text('Button 2', 'callback_2')
-  .row()
-  .url('Visit Website', 'https://example.com')
-  .row()
-  .switchInline('Share', 'Check this out!')
-  .build();
-
-await bot.sendMessage(chatId, 'Choose an option:', {
-  reply_markup: keyboard
-});
-
-// Handle button clicks
-bot.on('callback_query', async (query, ctx) => {
-  if (query.data === 'callback_1') {
-    await ctx.answerCallbackQuery({ text: 'Button 1 pressed!' });
-    await ctx.editMessageText('You selected Button 1');
-  }
-});
-```
-
-### Reply Keyboards
-
-```javascript
-const { ReplyKeyboardBuilder } = require('teh-bot');
-
-const keyboard = new ReplyKeyboardBuilder()
-  .text('Option 1')
-  .text('Option 2')
-  .row()
-  .requestContact('Share Contact')
-  .requestLocation('Share Location')
-  .row()
-  .requestPoll('Create Poll', 'quiz')
-  .resize()
-  .oneTime()
-  .placeholder('Choose an option...')
-  .build();
-
-await bot.sendMessage(chatId, 'Select:', {
-  reply_markup: keyboard
-});
-```
-
-## Bot API v9.3 Features
-
-### Message Drafts
-
-Stream partial messages for real-time updates:
-
-```javascript
-// Start streaming message
-const draft = await bot.sendMessageDraft(chatId, 'Starting...');
-
-// Update progressively
-await bot.editMessageText('Processing step 1...', {
-  chat_id: chatId,
-  message_id: draft.message_id
-});
-
-await bot.editMessageText('Final result!', {
-  chat_id: chatId,
-  message_id: draft.message_id
-});
-```
-
-### Gifts & Assets
-
-Manage Telegram gifts and digital assets:
-
-```javascript
-// Get user's gifts
-const gifts = await bot.getUserGifts(userId);
-
-gifts.forEach(gift => {
-  console.log(`Gift ID: ${gift.id}`);
-  console.log(`Star Count: ${gift.star_count}`);
-  console.log(`Premium: ${gift.is_premium}`);
-});
-
-// Get chat gifts
-const chatGifts = await bot.getChatGifts(chatId);
-
-// Filter blockchain gifts
-const blockchainGifts = await bot.getUserGifts(userId, {
-  exclude_from_blockchain: false
-});
-```
-
-### Forum Topics in Private Chats
-
-```javascript
-// Send to specific topic
-await bot.sendMessage(chatId, 'Topic message', {
-  message_thread_id: 123
-});
-
-// Edit forum topic
-await bot.editForumTopic(chatId, topicId, {
-  name: 'Updated Topic Name',
-  icon_custom_emoji_id: '5370869711888194012'
-});
-
-// Delete forum topic
-await bot.deleteForumTopic(chatId, topicId);
-
-// Unpin all topic messages
-await bot.unpinAllForumTopicMessages(chatId, topicId);
-```
-
-## Payments API
-
-TehBot provides full support for Telegram's Payment API:
-
-```javascript
-// Send invoice
-await bot.sendInvoice(
-  chatId,
-  'Premium Subscription',
-  '1 month access',
-  'premium-payload',
-  process.env.PROVIDER_TOKEN,
-  'USD',
-  [{ label: 'Plan', amount: 999 }]
-);
-
-// Answer pre-checkout query
-bot.on('pre_checkout_query', async (query) => {
-  await bot.answerPreCheckoutQuery(query.id, true);
-});
-
-// Handle successful payment
-bot.on('successful_payment', async (payment, ctx) => {
-  await ctx.reply('✅ Payment successful!');
-});
-
-// Telegram Stars
-const transactions = await bot.getStarTransactions({ limit: 50 });
-await bot.refundStarPayment(userId, chargeId);
-```
-
-## Chat Management
-
-```javascript
-// Get chat information
+// Get chat info
 const chat = await bot.getChat(chatId);
-const memberCount = await bot.getChatMemberCount(chatId);
+
+// Get chat administrators
 const admins = await bot.getChatAdministrators(chatId);
+
+// Get chat member count
+const count = await bot.getChatMemberCount(chatId);
+
+// Get specific chat member
 const member = await bot.getChatMember(chatId, userId);
 
-// Admin actions
-await bot.setChatTitle(chatId, 'New Group Title');
-await bot.setChatDescription(chatId, 'Updated description');
+// Set chat title
+await bot.setChatTitle(chatId, 'New Title');
+
+// Set chat description
+await bot.setChatDescription(chatId, 'New Description');
+
+// Pin message
 await bot.pinChatMessage(chatId, messageId);
+
+// Unpin message
+await bot.unpinChatMessage(chatId);
+
+// Unpin all messages
 await bot.unpinAllChatMessages(chatId);
 
-// Member management
+// Leave chat
+await bot.leaveChat(chatId);
+```
+
+#### Member Management
+
+```javascript
+// Ban member
 await bot.banChatMember(chatId, userId);
+
+// Unban member
 await bot.unbanChatMember(chatId, userId);
+
+// Restrict member
 await bot.restrictChatMember(chatId, userId, {
-  can_send_messages: false
+  can_send_messages: false,
+  can_send_media_messages: false,
 });
+
+// Promote member
 await bot.promoteChatMember(chatId, userId, {
+  can_manage_chat: true,
   can_delete_messages: true,
-  can_restrict_members: true
 });
 ```
 
-## File Handling
+#### File Management
 
 ```javascript
 // Get file info
 const file = await bot.getFile(fileId);
 
 // Download file
-await bot.downloadFile(fileId, './downloads/file.jpg');
-
-// Upload from various sources
-await bot.sendPhoto(chatId, './photo.jpg');                    // Local file
-await bot.sendPhoto(chatId, 'https://example.com/photo.jpg'); // URL
-await bot.sendPhoto(chatId, buffer);                           // Buffer
-await bot.sendPhoto(chatId, stream);                           // Stream
+await bot.downloadFile(fileId, '/path/to/save/file.jpg');
 ```
 
-## Event Handling
+#### Query Handling
 
 ```javascript
-bot.on('update', (update) => { /* All updates */ });
-bot.on('message', (message, ctx) => { /* All messages */ });
-bot.on('text', (message, ctx) => { /* Text messages */ });
-bot.on('photo', (message, ctx) => { /* Photo messages */ });
-bot.on('video', (message, ctx) => { /* Video messages */ });
-bot.on('document', (message, ctx) => { /* Document messages */ });
-bot.on('audio', (message, ctx) => { /* Audio messages */ });
-bot.on('voice', (message, ctx) => { /* Voice messages */ });
-bot.on('sticker', (message, ctx) => { /* Sticker messages */ });
-bot.on('location', (message, ctx) => { /* Location messages */ });
-bot.on('contact', (message, ctx) => { /* Contact messages */ });
-
-bot.on('callback_query', (query, ctx) => { /* Inline button clicks */ });
-bot.on('inline_query', (query, ctx) => { /* Inline mode queries */ });
-bot.on('poll', (poll, ctx) => { /* Poll updates */ });
-bot.on('poll_answer', (answer, ctx) => { /* Poll answers */ });
-
-bot.on('edited_message', (message, ctx) => { /* Message edits */ });
-bot.on('channel_post', (post, ctx) => { /* Channel posts */ });
-bot.on('my_chat_member', (member, ctx) => { /* Bot status changes */ });
-bot.on('chat_member', (member, ctx) => { /* Member status changes */ });
-
-bot.on('error', (error) => { /* Error handling */ });
-bot.on('polling_error', (error) => { /* Polling errors */ });
-```
-
-## Error Handling
-
-```javascript
-// Global error handler
-bot.on('error', (error) => {
-  console.error('Bot error:', error);
+// Answer callback query
+await bot.answerCallbackQuery(callbackQueryId, {
+  text: 'Button clicked!',
+  show_alert: false,
 });
 
-// Try-catch for specific operations
-try {
-  await bot.sendMessage(chatId, 'Test');
-} catch (error) {
-  if (error.code === 403) {
-    console.log('Bot was blocked by user');
-  } else if (error.code === 429) {
-    console.log('Rate limited, retry after:', error.parameters.retry_after);
-  } else {
-    console.error('Unknown error:', error);
-  }
-}
+// Answer inline query
+await bot.answerInlineQuery(inlineQueryId, [
+  {
+    type: 'article',
+    id: '1',
+    title: 'Result',
+    input_message_content: { message_text: 'Text' },
+  },
+]);
 ```
 
-## Advanced Usage
-
-### Inline Mode
+#### Bot Methods
 
 ```javascript
-bot.on('inline_query', async (query, ctx) => {
-  const results = [
-    {
-      type: 'article',
-      id: '1',
-      title: 'Result 1',
-      input_message_content: {
-        message_text: 'Content 1'
-      }
-    },
-    {
-      type: 'photo',
-      id: '2',
-      photo_url: 'https://example.com/photo.jpg',
-      thumbnail_url: 'https://example.com/thumb.jpg'
-    }
-  ];
+// Get bot info
+const me = await bot.getMe();
 
-  await bot.answerInlineQuery(query.id, results, {
-    cache_time: 300
+// Get updates
+const updates = await bot.getUpdates();
+
+// Set webhook
+await bot.setWebhook('https://example.com/webhook');
+
+// Delete webhook
+await bot.deleteWebhook();
+
+// Get webhook info
+const info = await bot.getWebhookInfo();
+```
+
+### Context Methods (Available in Command Handlers & Events)
+
+The `ctx` object provides convenient shorthand methods:
+
+```javascript
+bot.command('/start', async (ctx) => {
+  // Send message
+  await ctx.send('Hello!');
+  
+  // Reply to message
+  await ctx.reply('Reply!');
+  
+  // Reply with media
+  await ctx.replyWithPhoto(photoBuffer, { caption: 'Photo!' });
+  await ctx.replyWithVideo(videoUrl);
+  await ctx.replyWithAudio(audioBuffer);
+  await ctx.replyWithDocument(docPath);
+  
+  // Answer callback query
+  await ctx.answerCallbackQuery({ text: 'Done!' });
+  
+  // Edit message text
+  await ctx.editMessageText('New text', {
+    parse_mode: 'HTML',
   });
+  
+  // Access update data
+  console.log(ctx.message?.text);
+  console.log(ctx.chat?.id);
+  console.log(ctx.from?.username);
+  console.log(ctx.callbackQuery?.data);
 });
 ```
 
-### Command Routing
+## ⌨️ Keyboard Builders
+
+### Inline Keyboard
 
 ```javascript
-// Single command
+const keyboard = TelegramBot.InlineKeyboard()
+  .text('Button 1', 'btn1')
+  .text('Button 2', 'btn2')
+  .row()
+  .url('Google', 'https://google.com')
+  .url('GitHub', 'https://github.com')
+  .row()
+  .switchInline('Search', 'query')
+  .build();
+
+await bot.sendMessage(chatId, 'Choose:', { reply_markup: keyboard });
+```
+
+### Reply Keyboard
+
+```javascript
+const keyboard = TelegramBot.ReplyKeyboard()
+  .text('Option 1')
+  .text('Option 2')
+  .row()
+  .requestContact('Share Contact')
+  .requestLocation('Share Location')
+  .resize(true)
+  .oneTime(true)
+  .build();
+
+await bot.sendMessage(chatId, 'Choose:', { reply_markup: keyboard });
+```
+
+### Remove Keyboard
+
+```javascript
+await bot.sendMessage(chatId, 'Keyboard removed', {
+  reply_markup: TelegramBot.RemoveKeyboard(),
+});
+```
+
+### Force Reply
+
+```javascript
+await bot.sendMessage(chatId, 'Reply to me:', {
+  reply_markup: TelegramBot.ForceReply(),
+});
+```
+
+## 🎯 Event Handling
+
+### Message Events
+
+```javascript
+// All messages
+bot.on('message', (message, ctx) => {});
+
+// Text messages
+bot.on('text', (message, ctx) => {});
+
+// Photo messages
+bot.on('photo', (message, ctx) => {});
+
+// Video messages
+bot.on('video', (message, ctx) => {});
+
+// Audio messages
+bot.on('audio', (message, ctx) => {});
+
+// Document messages
+bot.on('document', (message, ctx) => {});
+
+// Voice messages
+bot.on('voice', (message, ctx) => {});
+
+// Sticker messages
+bot.on('sticker', (message, ctx) => {});
+
+// Location messages
+bot.on('location', (message, ctx) => {});
+
+// Contact messages
+bot.on('contact', (message, ctx) => {});
+
+// Edited messages
+bot.on('edited_message', (message, ctx) => {});
+
+// Channel posts
+bot.on('channel_post', (message, ctx) => {});
+
+// Edited channel posts
+bot.on('edited_channel_post', (message, ctx) => {});
+```
+
+### Query Events
+
+```javascript
+// Callback queries (from inline buttons)
+bot.on('callback_query', (query, ctx) => {
+  console.log(query.data); // Button callback data
+});
+
+// Inline queries
+bot.on('inline_query', (query, ctx) => {
+  console.log(query.query); // Search query
+});
+
+// Chosen inline result
+bot.on('chosen_inline_result', (result, ctx) => {});
+```
+
+### Poll Events
+
+```javascript
+// Poll updates
+bot.on('poll', (poll, ctx) => {});
+
+// Poll answers
+bot.on('poll_answer', (answer, ctx) => {});
+```
+
+### Chat Member Events
+
+```javascript
+// Bot added/removed from chat
+bot.on('my_chat_member', (member, ctx) => {});
+
+// User added/removed from chat
+bot.on('chat_member', (member, ctx) => {});
+```
+
+### System Events
+
+```javascript
+// Update received
+bot.on('update', (update) => {});
+
+// Polling started
+bot.on('polling_start', () => {});
+
+// Polling stopped
+bot.on('polling_stop', () => {});
+
+// Polling error
+bot.on('polling_error', (error) => {});
+
+// Webhook started
+bot.on('webhook_start', (port) => {});
+
+// Webhook stopped
+bot.on('webhook_stop', () => {});
+
+// Webhook error
+bot.on('webhook_error', (error) => {});
+
+// General error
+bot.on('error', (error) => {});
+```
+
+## 🔧 Middleware
+
+```javascript
+// Logging middleware
+bot.use(async (ctx, next) => {
+  console.log(`[${new Date().toISOString()}] Message from ${ctx.from?.username}`);
+  await next();
+});
+
+// Rate limiting middleware
+const userCalls = new Map();
+bot.use(async (ctx, next) => {
+  const userId = ctx.from?.id;
+  if (!userId) return;
+  
+  const calls = userCalls.get(userId) || 0;
+  if (calls > 5) {
+    await ctx.send('Rate limited!');
+    return;
+  }
+  
+  userCalls.set(userId, calls + 1);
+  await next();
+});
+
+// Permission checking middleware
+bot.use(async (ctx, next) => {
+  const allowedUsers = [123456789, 987654321];
+  if (!allowedUsers.includes(ctx.from?.id || 0)) {
+    await ctx.send('❌ Not authorized');
+    return;
+  }
+  await next();
+});
+```
+
+## 📋 Command Handling
+
+### Single Command
+
+```javascript
 bot.command('/start', async (ctx) => {
   await ctx.send('Welcome!');
 });
 
-// Multiple commands
-bot.command(['/help', '/support'], async (ctx) => {
-  await ctx.send('How can I help you?');
+bot.command('help', async (ctx) => { // With or without /
+  await ctx.send('Need help?');
 });
-
-// Get command handler
-const startHandler = bot.command('/start');
 ```
 
-### Custom API Requests
+### Multiple Commands
 
 ```javascript
-// Direct API call
-const result = await bot.request('getMe');
-console.log(result);
-
-// With parameters
-const updates = await bot.request('getUpdates', {
-  offset: 0,
-  limit: 100
+bot.command(['/help', '/h', 'help'], async (ctx) => {
+  await ctx.send('Here is help');
 });
 ```
 
-## Documentation
+### Get Command Handler
 
-Full documentation is available in the `docs.html` file included in this package. Open it in your browser for complete API reference with examples.
+```javascript
+const handler = bot.command('/start'); // Get without registering
+if (handler) {
+  handler(ctx); // Call the handler
+}
+```
 
-## API Coverage
+## 🌐 Webhook Mode
 
-TehBot supports all Telegram Bot API v9.3 methods including:
+```javascript
+const bot = new TelegramBot(token, {
+  webhook: true,
+  webhookPort: 3000,
+  webhookPath: '/webhook',
+});
 
-- Message sending (text, photos, videos, documents, audio, voice, stickers, locations, venues, contacts, polls, dice)
-- Message management (editing, deleting, forwarding, copying)
-- Message drafts (streaming partial messages)
-- Chat management (info, members, admins, permissions)
-- Keyboard builders (inline and reply)
-- File handling (upload, download)
-- Inline mode
-- Callback queries
-- Payments
-- Gifts and digital assets
-- Forum topics in private chats
-- Webhooks and polling
-- And much more...
+// Webhook events
+bot.on('webhook_start', (port) => {
+  console.log(`✅ Webhook listening on port ${port}`);
+});
 
-## Requirements
+bot.on('webhook_stop', () => {
+  console.log('Webhook stopped');
+});
 
-- Node.js 12.0 or higher
-- A Telegram Bot Token (get one from [@BotFather](https://t.me/botfather))
+bot.on('webhook_error', (error) => {
+  console.error('Webhook error:', error);
+});
 
-## License
+// Start webhook
+bot.startWebhook();
 
-MIT
+// Stop webhook
+bot.stopWebhook();
+```
 
-## Contributing
+## 🔄 Polling Mode
+
+```javascript
+const bot = new TelegramBot(token, {
+  polling: true,
+  pollingInterval: 1000,
+  pollingTimeout: 30,
+});
+
+// Start polling
+await bot.startPolling();
+
+// Stop polling
+bot.stopPolling();
+```
+
+## 📤 Advanced Examples
+
+### Image Processing Bot
+
+```javascript
+const fs = require('fs');
+
+bot.on('photo', async (message, ctx) => {
+  const file = await bot.getFile(message.photo[message.photo.length - 1].file_id);
+  await bot.downloadFile(file.file_id, './downloaded.jpg');
+  await ctx.send('✅ Photo received and saved!');
+});
+```
+
+### Interactive Menu
+
+```javascript
+bot.command('/menu', async (ctx) => {
+  const keyboard = TelegramBot.InlineKeyboard()
+    .text('Option A', 'opt_a')
+    .text('Option B', 'opt_b')
+    .row()
+    .text('Back', 'back')
+    .build();
+
+  await ctx.send('Choose an option:', { reply_markup: keyboard });
+});
+
+bot.on('callback_query', async (query, ctx) => {
+  switch (query.data) {
+    case 'opt_a':
+      await ctx.answerCallbackQuery({ text: 'You chose A!' });
+      await ctx.editMessageText('✅ Option A selected');
+      break;
+    case 'opt_b':
+      await ctx.answerCallbackQuery({ text: 'You chose B!' });
+      await ctx.editMessageText('✅ Option B selected');
+      break;
+    case 'back':
+      // Show menu again
+      break;
+  }
+});
+```
+
+### Survey Bot
+
+```javascript
+bot.on('poll', async (poll, ctx) => {
+  console.log(`Poll: ${poll.question}`);
+  console.log(`Total voters: ${poll.total_voter_count}`);
+  poll.options.forEach((opt, i) => {
+    console.log(`  ${i + 1}. ${opt.text}: ${opt.voter_count} votes`);
+  });
+});
+
+bot.on('poll_answer', async (answer, ctx) => {
+  console.log(`User ${answer.user.id} voted for options: ${answer.option_ids}`);
+});
+```
+
+### Auto-responder
+
+```javascript
+const responses = {
+  hello: '👋 Hello! How can I help?',
+  hi: '👋 Hi there!',
+  bye: '👋 Goodbye!',
+};
+
+bot.on('text', async (message, ctx) => {
+  const text = message.text?.toLowerCase() || '';
+  const response = responses[text];
+  if (response) {
+    await ctx.send(response);
+  }
+});
+```
+
+## 🐛 Error Handling
+
+```javascript
+bot.on('error', (error) => {
+  console.error('Bot error:', {
+    message: error.message,
+    code: error.errorCode,
+    response: error.response,
+  });
+});
+
+bot.on('polling_error', (error) => {
+  console.error('Polling error:', error.message);
+  // Auto-reconnect happens automatically
+});
+
+try {
+  await bot.sendMessage(chatId, 'message');
+} catch (error) {
+  console.error('Send failed:', error.message);
+}
+```
+
+## 📊 Telegram Bot API Coverage
+
+### ✅ Implemented Features
+
+- ✅ **Message Methods** - Send, edit, delete messages and media
+- ✅ **File Handling** - Upload, download files
+- ✅ **Chat Methods** - Get chat info, manage settings
+- ✅ **User Methods** - Get user info, manage members
+- ✅ **Keyboard & Buttons** - Inline and reply keyboards
+- ✅ **Queries** - Callback, inline, and poll queries
+- ✅ **Updates & Events** - Real-time event handling
+- ✅ **Polling & Webhooks** - Multiple update methods
+- ✅ **Media Types** - Photos, videos, audio, documents, stickers, animations, voice
+- ✅ **Admin Functions** - Ban, restrict, promote members
+- ✅ **Games & Polls** - Send polls and get answers
+
+## 🔌 Environment Setup
+
+### Get Your Bot Token
+
+1. Open Telegram and chat with [@BotFather](https://t.me/botfather)
+2. Send `/newbot` command
+3. Follow the instructions
+4. Copy your token
+
+### Set Environment Variable
+
+```bash
+export TELEGRAM_BOT_TOKEN="YOUR_TOKEN_HERE"
+```
+
+Or in `.env` file:
+```env
+TELEGRAM_BOT_TOKEN=your_token_here
+```
+
+## 📝 License
+
+MIT License - See LICENSE file for details
+
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Support
+## 📞 Support
 
-If you encounter any issues or have questions, please file an issue on the GitHub repository.
+For issues, questions, or suggestions:
+- GitHub Issues: [GitHub Issues](https://github.com/kazedevid/teh/issues)
+- Telegram Bot API Docs: [Official Docs](https://core.telegram.org/bots/api)
+
+## 🙏 Acknowledgments
+
+Built with ❤️ for the Telegram Bot API community.
 
 ---
 
-**Made with ❤️ for the Telegram Bot community**
+**Happy botting! 🤖**

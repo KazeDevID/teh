@@ -1,7 +1,7 @@
 {
   "name": "teh-bot",
-  "version": "1.0.4",
-  "description": "Lightweight, high-performance Telegram Bot API module with zero dependencies",
+  "version": "1.0.5",
+  "description": "Lightweight, high-performance Telegram Bot API library with zero dependencies. Supports polling, webhooks, and all Telegram Bot API methods.",
   "keywords": [
     "telegram",
     "bot",
@@ -9,7 +9,12 @@
     "telegram-bot",
     "telegram-bot-api",
     "lightweight",
-    "polling"
+    "polling",
+    "webhook",
+    "nodejs",
+    "typescript",
+    "esm",
+    "cjs"
   ],
   "homepage": "https://github.com/kazedevid/teh#readme",
   "bugs": {
@@ -21,16 +26,27 @@
   },
   "license": "MIT",
   "author": "KazeDevID",
-  "type": "commonjs",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
-    "index.js",
-    "index.d.ts",
+    "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node scripts/build.cjs",
+    "dev": "node examples/simple-bot.js",
+    "prepublish": "npm run build",
+    "test": "node scripts/test.cjs"
   }
 }

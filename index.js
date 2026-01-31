@@ -5,7 +5,6 @@ const { createReadStream, statSync, createWriteStream, promises: fsPromises } = 
 const { basename, extname } = require("path")
 const { URL } = require("url")
 const { Stream, Readable } = require("stream")
-const FormData = require("form-data")
 
 const DEFAULT_OPTIONS = {
   polling: false,
@@ -18,7 +17,6 @@ const DEFAULT_OPTIONS = {
   maxConnections: 40,
   allowedUpdates: [],
   baseApiUrl: "https://api.telegram.org",
-  apiVersion: "9.3",
 }
 
 class TelegramBot extends EventEmitter {
@@ -67,7 +65,7 @@ class TelegramBot extends EventEmitter {
         method: "POST",
         headers: {
           ...headers,
-          "User-Agent": "TehBot/1.0.0 (Modern; High-Performance)",
+          "User-Agent": "Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.166 Safari/537.36",
         },
         timeout: this.options.requestTimeout,
       }
@@ -207,11 +205,10 @@ class TelegramBot extends EventEmitter {
     })
   }
 
-  async sendChatAction(chatId, action, options = {}) {
+  async sendChatAction(chatId, action) {
     return this.request("sendChatAction", {
       chat_id: chatId,
       action,
-      ...options,
     })
   }
 
@@ -561,14 +558,6 @@ class TelegramBot extends EventEmitter {
         if (update.message.contact) {
           this.emit("contact", update.message, ctx)
         }
-
-        if (update.message.successful_payment) {
-          this.emit("successful_payment", update.message.successful_payment, ctx)
-        }
-
-        if (update.message.refunded_payment) {
-          this.emit("refunded_payment", update.message.refunded_payment, ctx)
-        }
       }
 
       if (update.edited_message) {
@@ -609,14 +598,6 @@ class TelegramBot extends EventEmitter {
 
       if (update.chat_member) {
         this.emit("chat_member", update.chat_member, ctx)
-      }
-
-      if (update.shipping_query) {
-        this.emit("shipping_query", update.shipping_query, ctx)
-      }
-
-      if (update.pre_checkout_query) {
-        this.emit("pre_checkout_query", update.pre_checkout_query, ctx)
       }
     } catch (error) {
       this.emit("error", error)
@@ -659,8 +640,6 @@ class TelegramBot extends EventEmitter {
       pollAnswer: update.poll_answer,
       myChatMember: update.my_chat_member,
       chatMember: update.chat_member,
-      shippingQuery: update.shipping_query,
-      preCheckoutQuery: update.pre_checkout_query,
     }
 
     // Baileys-style simplified response
@@ -718,17 +697,6 @@ class TelegramBot extends EventEmitter {
         message_id: ctx.callbackQuery.message.message_id,
         ...options,
       })
-    }
-
-    // Context helpers for payment
-    ctx.answerShippingQuery = (ok, options = {}) => {
-      if (!ctx.shippingQuery?.id) return Promise.resolve(false)
-      return this.answerShippingQuery(ctx.shippingQuery.id, ok, options)
-    }
-
-    ctx.answerPreCheckoutQuery = (ok, options = {}) => {
-      if (!ctx.preCheckoutQuery?.id) return Promise.resolve(false)
-      return this.answerPreCheckoutQuery(ctx.preCheckoutQuery.id, ok, options)
     }
 
     return ctx
@@ -927,70 +895,25 @@ class TelegramBot extends EventEmitter {
   }
 
   async revokeChatInviteLink(chatId, inviteLink) {
-    return this.request("revokeChatInviteLink", {
-      chat_id: chatId,
-      invite_link: inviteLink,
-    })
+    return this.request("revokeChatInviteLink", { chat_id: chatId, invite_link: inviteLink })
+  }
+  
+  static InlineKeyboard() {
+    return new InlineKeyboardBuilder()
   }
 
-  async sendInvoice(chatId, title, description, payload, providerToken, currency, prices, options = {}) {
-    return this.request("sendInvoice", {
-      chat_id: chatId,
-      title,
-      description,
-      payload,
-      provider_token: providerToken,
-      currency,
-      prices,
-      ...options,
-    })
+  static ReplyKeyboard() {
+    return new ReplyKeyboardBuilder()
   }
 
-  async createInvoiceLink(title, description, payload, providerToken, currency, prices, options = {}) {
-    return this.request("createInvoiceLink", {
-      title,
-      description,
-      payload,
-      provider_token: providerToken,
-      currency,
-      prices,
-      ...options,
-    })
+  static RemoveKeyboard(selective = false) {
+    return { remove_keyboard: true, selective }
   }
 
-  async answerShippingQuery(shippingQueryId, ok, options = {}) {
-    return this.request("answerShippingQuery", {
-      shipping_query_id: shippingQueryId,
-      ok,
-      ...options,
-    })
-  }
-
-  async answerPreCheckoutQuery(preCheckoutQueryId, ok, options = {}) {
-    return this.request("answerPreCheckoutQuery", {
-      pre_checkout_query_id: preCheckoutQueryId,
-      ok,
-      ...options,
-    })
-  }
-
-  async getStarTransactions(options = {}) {
-    return this.request("getStarTransactions", options)
-  }
-
-  async refundStarPayment(userId, telegramPaymentChargeId) {
-    return this.request("refundStarPayment", {
-      user_id: userId,
-      telegram_payment_charge_id: telegramPaymentChargeId,
-    })
-  }
-
-  async editUserStarSubscription(userId, telegramPaymentChargeId, isCanceled) {
-    return this.request("editUserStarSubscription", {
-      user_id: userId,
-      telegram_payment_charge_id: telegramPaymentChargeId,
-      is_canceled: isCanceled,
-    })
+  static ForceReply(selective = false, placeholder = "") {
+    const obj = { force_reply: true, selective }
+    if (placeholder) obj.input_field_placeholder = placeholder
+    return obj
   }
 }
 
