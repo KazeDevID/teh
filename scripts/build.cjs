@@ -21,7 +21,12 @@ const cjsContent = srcJs
 // ESM format
 let esmContent = srcJs
   .replace(/const (\w+) = require\(["']([^"']+)["']\)/g, "import $1 from \"$2\"")
-  .replace(/const \{ ([^}]+) \} = require\(["']([^"']+)["']\)/g, "import { $1 } from \"$2\"")
+  .replace(/const \{ ([^}]+) \} = require\(["']([^"']+)["']\)/g, (match, imports, module) => {
+    // Convert require-style destructuring to ESM, handling renamed imports
+    const converted = imports
+      .replace(/:\s*(\w+)/g, " as $1") // Convert promises: fsPromises to promises as fsPromises
+    return `import { ${converted} } from "${module}"`
+  })
   .replace(/module\.exports = (\w+);?/g, "export default $1;")
   .replace(/module\.exports\.(\w+) = (\w+);?/g, "export { $2 as $1 };")
 
