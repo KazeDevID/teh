@@ -1,0 +1,24 @@
+# Source files
+src/
+scripts/
+examples/
+
+# Configuration
+.github/
+.gitignore
+.env*
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Documentation & Testing
+*.md
+!README.md
+!LICENSE
+
+# Development
+node_modules/
+*.log
