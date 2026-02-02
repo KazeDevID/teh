@@ -855,6 +855,545 @@ class TelegramBot extends EventEmitter {
   static ForceReply() {
     return { force_reply: true }
   }
+
+  // Payment Methods
+  async sendInvoice(chatId, title, description, payload, providerToken, currency, prices, options = {}) {
+    return this.request("sendInvoice", {
+      chat_id: chatId,
+      title,
+      description,
+      payload,
+      provider_token: providerToken,
+      currency,
+      prices,
+      ...options,
+    })
+  }
+
+  async answerShippingQuery(shippingQueryId, ok, options = {}) {
+    return this.request("answerShippingQuery", {
+      shipping_query_id: shippingQueryId,
+      ok,
+      ...options,
+    })
+  }
+
+  async answerPreCheckoutQuery(preCheckoutQueryId, ok, options = {}) {
+    return this.request("answerPreCheckoutQuery", {
+      pre_checkout_query_id: preCheckoutQueryId,
+      ok,
+      ...options,
+    })
+  }
+
+  // Games
+  async sendGame(chatId, gameShortName, options = {}) {
+    return this.request("sendGame", {
+      chat_id: chatId,
+      game_short_name: gameShortName,
+      ...options,
+    })
+  }
+
+  async setGameScore(userId, score, options = {}) {
+    return this.request("setGameScore", {
+      user_id: userId,
+      score,
+      ...options,
+    })
+  }
+
+  async getGameHighScores(userId, options = {}) {
+    return this.request("getGameHighScores", {
+      user_id: userId,
+      ...options,
+    })
+  }
+
+  // Sticker Set Management
+  async createNewStickerSet(userId, name, title, stickerFormat, stickers, options = {}) {
+    return this.request("createNewStickerSet", {
+      user_id: userId,
+      name,
+      title,
+      sticker_format: stickerFormat,
+      stickers,
+      ...options,
+    })
+  }
+
+  async addStickerToSet(userId, name, sticker, options = {}) {
+    return this.request("addStickerToSet", {
+      user_id: userId,
+      name,
+      sticker,
+      ...options,
+    })
+  }
+
+  async setStickerPositionInSet(sticker, position) {
+    return this.request("setStickerPositionInSet", {
+      sticker,
+      position,
+    })
+  }
+
+  async deleteStickerFromSet(sticker) {
+    return this.request("deleteStickerFromSet", { sticker })
+  }
+
+  async setStickerEmojiList(sticker, emojiList) {
+    return this.request("setStickerEmojiList", {
+      sticker,
+      emoji_list: emojiList,
+    })
+  }
+
+  async setStickerKeywords(sticker, keywords = []) {
+    return this.request("setStickerKeywords", {
+      sticker,
+      keywords,
+    })
+  }
+
+  async setStickerMaskPosition(sticker, maskPosition = null) {
+    return this.request("setStickerMaskPosition", {
+      sticker,
+      mask_position: maskPosition,
+    })
+  }
+
+  async getStickerSet(name) {
+    return this.request("getStickerSet", { name })
+  }
+
+  async uploadStickerFile(userId, sticker, stickerFormat) {
+    return this.request("uploadStickerFile", {
+      user_id: userId,
+      sticker,
+      sticker_format: stickerFormat,
+    })
+  }
+
+  async replaceStickerInSet(userId, name, oldSticker, sticker) {
+    return this.request("replaceStickerInSet", {
+      user_id: userId,
+      name,
+      old_sticker: oldSticker,
+      sticker,
+    })
+  }
+
+  async deleteStickerSet(name) {
+    return this.request("deleteStickerSet", { name })
+  }
+
+  async setStickerSetThumbnail(name, userId, thumbnail = null) {
+    return this.request("setStickerSetThumbnail", {
+      name,
+      user_id: userId,
+      thumbnail,
+    })
+  }
+
+  async setCustomEmojiStickerSetThumbnail(name, customEmojiId = null) {
+    return this.request("setCustomEmojiStickerSetThumbnail", {
+      name,
+      custom_emoji_id: customEmojiId,
+    })
+  }
+
+  async setStickerSetTitle(name, title) {
+    return this.request("setStickerSetTitle", { name, title })
+  }
+
+  async setStickerSetDescription(name, description) {
+    return this.request("setStickerSetDescription", { name, description })
+  }
+
+  // Forum/Topic Management
+  async createForumTopic(chatId, name, options = {}) {
+    return this.request("createForumTopic", {
+      chat_id: chatId,
+      name,
+      ...options,
+    })
+  }
+
+  async editForumTopic(chatId, messageThreadId, options = {}) {
+    return this.request("editForumTopic", {
+      chat_id: chatId,
+      message_thread_id: messageThreadId,
+      ...options,
+    })
+  }
+
+  async closeForumTopic(chatId, messageThreadId) {
+    return this.request("closeForumTopic", {
+      chat_id: chatId,
+      message_thread_id: messageThreadId,
+    })
+  }
+
+  async reopenForumTopic(chatId, messageThreadId) {
+    return this.request("reopenForumTopic", {
+      chat_id: chatId,
+      message_thread_id: messageThreadId,
+    })
+  }
+
+  async deleteForumTopic(chatId, messageThreadId) {
+    return this.request("deleteForumTopic", {
+      chat_id: chatId,
+      message_thread_id: messageThreadId,
+    })
+  }
+
+  async unpinAllForumTopicMessages(chatId, messageThreadId) {
+    return this.request("unpinAllForumTopicMessages", {
+      chat_id: chatId,
+      message_thread_id: messageThreadId,
+    })
+  }
+
+  async editGeneralForumTopic(chatId, name) {
+    return this.request("editGeneralForumTopic", {
+      chat_id: chatId,
+      name,
+    })
+  }
+
+  async closeGeneralForumTopic(chatId) {
+    return this.request("closeGeneralForumTopic", { chat_id: chatId })
+  }
+
+  async reopenGeneralForumTopic(chatId) {
+    return this.request("reopenGeneralForumTopic", { chat_id: chatId })
+  }
+
+  async hideGeneralForumTopic(chatId) {
+    return this.request("hideGeneralForumTopic", { chat_id: chatId })
+  }
+
+  async unhideGeneralForumTopic(chatId) {
+    return this.request("unhideGeneralForumTopic", { chat_id: chatId })
+  }
+
+  async getForumTopicIconStickers() {
+    return this.request("getForumTopicIconStickers")
+  }
+
+  // User Permissions & Rights Management
+  async setDefaultAdministratorRights(options = {}) {
+    return this.request("setDefaultAdministratorRights", options)
+  }
+
+  async getDefaultAdministratorRights(forChannels = false) {
+    return this.request("getDefaultAdministratorRights", {
+      for_channels: forChannels,
+    })
+  }
+
+  async setDefaultChatMenuButton(options = {}) {
+    return this.request("setDefaultChatMenuButton", options)
+  }
+
+  async getDefaultChatMenuButton() {
+    return this.request("getDefaultChatMenuButton")
+  }
+
+  async setChatMenuButton(chatId = null, options = {}) {
+    const params = {}
+    if (chatId !== null) params.chat_id = chatId
+    return this.request("setChatMenuButton", { ...params, ...options })
+  }
+
+  async getChatMenuButton(chatId = null) {
+    const params = {}
+    if (chatId !== null) params.chat_id = chatId
+    return this.request("getChatMenuButton", params)
+  }
+
+  // Chat Invite Links Management
+  async createChatInviteLink(chatId, options = {}) {
+    return this.request("createChatInviteLink", {
+      chat_id: chatId,
+      ...options,
+    })
+  }
+
+  async editChatInviteLink(chatId, inviteLink, options = {}) {
+    return this.request("editChatInviteLink", {
+      chat_id: chatId,
+      invite_link: inviteLink,
+      ...options,
+    })
+  }
+
+  async revokeChatInviteLink(chatId, inviteLink) {
+    return this.request("revokeChatInviteLink", {
+      chat_id: chatId,
+      invite_link: inviteLink,
+    })
+  }
+
+  async approveChatJoinRequest(chatId, userId) {
+    return this.request("approveChatJoinRequest", {
+      chat_id: chatId,
+      user_id: userId,
+    })
+  }
+
+  async declineChatJoinRequest(chatId, userId) {
+    return this.request("declineChatJoinRequest", {
+      chat_id: chatId,
+      user_id: userId,
+    })
+  }
+
+  // Chat Boost Management
+  async getUserChatBoosts(chatId, userId) {
+    return this.request("getUserChatBoosts", {
+      chat_id: chatId,
+      user_id: userId,
+    })
+  }
+
+  async getAvailableGifts() {
+    return this.request("getAvailableGifts")
+  }
+
+  async sendGift(userId, giftId, options = {}) {
+    return this.request("sendGift", {
+      user_id: userId,
+      gift_id: giftId,
+      ...options,
+    })
+  }
+
+  // Message Reactions
+  async setMessageReaction(chatId, messageId, reaction = [], options = {}) {
+    return this.request("setMessageReaction", {
+      chat_id: chatId,
+      message_id: messageId,
+      reaction,
+      ...options,
+    })
+  }
+
+  async getAvailableReactions() {
+    return this.request("getAvailableReactions")
+  }
+
+  // Media Group & Carousel
+  async sendMediaGroup(chatId, media, options = {}) {
+    return this.request("sendMediaGroup", {
+      chat_id: chatId,
+      media,
+      ...options,
+    })
+  }
+
+  // Scheduled Messages
+  async sendScheduledMessage(chatId, content, timestamp, options = {}) {
+    const params = {
+      chat_id: chatId,
+      ...options,
+    }
+
+    if (typeof content === "string") {
+      params.text = content
+    } else {
+      Object.assign(params, content)
+    }
+
+    params.message_thread_id = timestamp
+    return this.request("sendScheduledMessage", params)
+  }
+
+  async getScheduledMessages(chatId) {
+    return this.request("getScheduledMessages", { chat_id: chatId })
+  }
+
+  async deleteScheduledMessage(chatId, messageId) {
+    return this.request("deleteScheduledMessage", {
+      chat_id: chatId,
+      message_id: messageId,
+    })
+  }
+
+  // User Profile Photos
+  async getUserProfilePhotos(userId, options = {}) {
+    return this.request("getUserProfilePhotos", {
+      user_id: userId,
+      ...options,
+    })
+  }
+
+  async setUserProfilePhoto(userId, photo, options = {}) {
+    return this.request("setUserProfilePhoto", {
+      user_id: userId,
+      photo,
+      ...options,
+    })
+  }
+
+  async deleteUserProfilePhoto(userId, photoId) {
+    return this.request("deleteUserProfilePhoto", {
+      user_id: userId,
+      photo_id: photoId,
+    })
+  }
+
+  // Commands Management
+  async setMyCommands(commands, options = {}) {
+    return this.request("setMyCommands", {
+      commands,
+      ...options,
+    })
+  }
+
+  async deleteMyCommands(options = {}) {
+    return this.request("deleteMyCommands", options)
+  }
+
+  async getMyCommands(options = {}) {
+    return this.request("getMyCommands", options)
+  }
+
+  async setMyDefaultAdministratorRights(options = {}) {
+    return this.request("setMyDefaultAdministratorRights", options)
+  }
+
+  async getMyDefaultAdministratorRights(options = {}) {
+    return this.request("getMyDefaultAdministratorRights", options)
+  }
+
+  // Webhook Management
+  async setWebhookCertificate(url, certificate, options = {}) {
+    return this.request("setWebhook", {
+      url,
+      certificate,
+      ...options,
+    })
+  }
+
+  async setWebhookIpAddress(ipAddress) {
+    return this.request("setWebhook", {
+      ip_address: ipAddress,
+    })
+  }
+
+  // Business Connections
+  async getBusinessConnection(businessConnectionId) {
+    return this.request("getBusinessConnection", {
+      business_connection_id: businessConnectionId,
+    })
+  }
+
+  // Web App Features
+  async sendWebAppData(webAppQueryId, data) {
+    return this.request("answerWebAppQuery", {
+      web_app_query_id: webAppQueryId,
+      result: {
+        type: "article",
+        id: "1",
+        title: "Web App",
+        description: data,
+        input_message_content: {
+          message_text: data,
+        },
+      },
+    })
+  }
+
+  // Commands Scoping
+  async setMyCommandsScope(commands, scope, options = {}) {
+    return this.request("setMyCommands", {
+      commands,
+      scope,
+      ...options,
+    })
+  }
+
+  async getMyCommandsScope(scope) {
+    return this.request("getMyCommands", { scope })
+  }
+
+  // Telegram Passport
+  async setPassportDataErrors(userId, errors) {
+    return this.request("setPassportDataErrors", {
+      user_id: userId,
+      errors,
+    })
+  }
+
+  // Inline Query Results Helpers
+  static InlineQueryResult = {
+    article: (id, title, description, content) => ({
+      type: "article",
+      id,
+      title,
+      description,
+      input_message_content: content,
+    }),
+    photo: (id, photoUrl, thumbUrl) => ({
+      type: "photo",
+      id,
+      photo_url: photoUrl,
+      thumbnail_url: thumbUrl,
+    }),
+    gif: (id, gifUrl, thumbUrl) => ({
+      type: "gif",
+      id,
+      gif_url: gifUrl,
+      thumbnail_url: thumbUrl,
+    }),
+    video: (id, videoUrl, mimeType, thumbUrl, title) => ({
+      type: "video",
+      id,
+      video_url: videoUrl,
+      mime_type: mimeType,
+      thumbnail_url: thumbUrl,
+      title,
+    }),
+    audio: (id, audioUrl, title) => ({
+      type: "audio",
+      id,
+      audio_url: audioUrl,
+      title,
+    }),
+    voice: (id, voiceUrl, title) => ({
+      type: "voice",
+      id,
+      voice_url: voiceUrl,
+      title,
+    }),
+    document: (id, documentUrl, title, mimeType) => ({
+      type: "document",
+      id,
+      document_url: documentUrl,
+      title,
+      mime_type: mimeType,
+    }),
+  }
+
+  // Rate Limiting & Retry Logic
+  async _executeWithRetry(method, params, maxRetries = 3) {
+    let lastError
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        return await this.request(method, params)
+      } catch (error) {
+        lastError = error
+        if (i < maxRetries - 1) {
+          const delay = Math.pow(2, i) * 1000
+          await new Promise((resolve) => setTimeout(resolve, delay))
+        }
+      }
+    }
+    throw lastError
+  }
 }
 
 class InlineKeyboardBuilder {
