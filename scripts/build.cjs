@@ -40,10 +40,17 @@ if (!esmContent.includes("export { TelegramBot")) {
   esmContent += "\nexport { TelegramBot, InlineKeyboardBuilder, ReplyKeyboardBuilder };"
 }
 
+// Ensure Context is exported from TypeScript definitions
+let dtsContent = srcDts
+// If Context export is missing, add it before the default export
+if (!dtsContent.includes("export { Context }")) {
+  dtsContent = dtsContent.replace("export default TelegramBot", "export { Context }\nexport default TelegramBot")
+}
+
 // Write dist files
 fs.writeFileSync(path.join(DIST_DIR, "index.cjs"), cjsContent)
 fs.writeFileSync(path.join(DIST_DIR, "index.mjs"), esmContent)
-fs.writeFileSync(path.join(DIST_DIR, "index.d.ts"), srcDts)
+fs.writeFileSync(path.join(DIST_DIR, "index.d.ts"), dtsContent)
 
 console.log("✅ Build complete!")
 console.log(`  - dist/index.cjs (CommonJS)`)
