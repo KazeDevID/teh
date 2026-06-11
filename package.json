@@ -1,5 +1,5 @@
 {
-  "name": "@mkz/telega",
+  "name": "telegam",
   "version": "1.0.0",
   "description": "A modern, production-ready Telegram Bot API library for Node.js with full TypeScript support",
   "main": "./dist/index.js",
