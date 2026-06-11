@@ -31,7 +31,7 @@ await ctx.reply('<b>Bold</b> <i>italic</i> <code>code</code>', {
 ### Using Formatting Helpers
 
 ```javascript
-import { bold, italic, code, link, mention } from '@mkz/telega';
+import { bold, italic, code, link, mention } from '@mkzstyleee/telega';
 
 const text = `${bold('Hello')} ${italic('world')}!
 Check out ${link('https://example.com', 'this link')}.`;
@@ -44,7 +44,7 @@ await ctx.reply(text, { parseMode: 'MarkdownV2' });
 ### Inline Keyboard
 
 ```javascript
-import { keyboard } from '@mkz/telega';
+import { keyboard } from '@mkzstyleee/telega';
 
 const inlineKeyboard = keyboard()
   .text('Button 1', 'callback_1')

@@ -5,13 +5,13 @@ Telega is written in TypeScript and provides complete type definitions.
 ## Installation
 
 ```bash
-npm install @mkz/telega
+npm install @mkzstyleee/telega
 ```
 
 ## Basic Usage
 
 ```typescript
-import { Telega, Context, Message, User } from '@mkz/telega';
+import { Telega, Context, Message, User } from '@mkzstyleee/telega';
 
 const bot = new Telega({
   token: process.env.BOT_TOKEN!,
@@ -29,7 +29,7 @@ bot.startPolling();
 
 ```typescript
 // Main classes
-import { Telega, Context, TelegramClient, API } from '@mkz/telega';
+import { Telega, Context, TelegramClient, API } from '@mkzstyleee/telega';
 
 // Types
 import type {
@@ -42,22 +42,22 @@ import type {
   InlineKeyboardMarkup,
   File,
   Poll,
-} from '@mkz/telega';
+} from '@mkzstyleee/telega';
 
 // Middleware types
-import type { MiddlewareFunction, NextFunction } from '@mkz/telega';
+import type { MiddlewareFunction, NextFunction } from '@mkzstyleee/telega';
 
 // Command types
-import type { CommandOptions } from '@mkz/telega';
+import type { CommandOptions } from '@mkzstyleee/telega';
 
 // Plugin types
-import type { Plugin } from '@mkz/telega';
+import type { Plugin } from '@mkzstyleee/telega';
 ```
 
 ## Typed Middleware
 
 ```typescript
-import { Context, MiddlewareFunction } from '@mkz/telega';
+import { Context, MiddlewareFunction } from '@mkzstyleee/telega';
 
 const logMiddleware: MiddlewareFunction = async (ctx, next) => {
   console.log(`Update: ${ctx.update.update_id}`);
@@ -68,7 +68,7 @@ const logMiddleware: MiddlewareFunction = async (ctx, next) => {
 ## Typed Handlers
 
 ```typescript
-import { Context } from '@mkz/telega';
+import { Context } from '@mkzstyleee/telega';
 
 bot.on('message', async (ctx: Context) => {
   const message = ctx.message;
@@ -85,7 +85,7 @@ bot.on('callback_query', async (ctx: Context) => {
 
 ```typescript
 // Extend Context with custom properties
-declare module '@mkz/telega' {
+declare module '@mkzstyleee/telega' {
   interface Context {
     myProperty?: string;
   }
@@ -101,14 +101,14 @@ bot.use(async (ctx, next) => {
 ## Session Types
 
 ```typescript
-import { createSessionPlugin } from '@mkz/telega';
+import { createSessionPlugin } from '@mkzstyleee/telega';
 
 interface MySession {
   counter: number;
   lastCommand?: string;
 }
 
-declare module '@mkz/telega' {
+declare module '@mkzstyleee/telega' {
   interface Context {
     session: MySession;
   }
@@ -125,7 +125,7 @@ bot.use(async (ctx, next) => {
 ## Generics
 
 ```typescript
-import { Update, Message, CallbackQuery } from '@mkz/telega';
+import { Update, Message, CallbackQuery } from '@mkzstyleee/telega';
 
 function handleMessage(message: Message): string {
   return message.text ?? '';
@@ -151,8 +151,8 @@ Telega is built with strict TypeScript settings:
 ## Example: Fully Typed Bot
 
 ```typescript
-import { Telega, Context, keyboard, bold, italic } from '@mkz/telega';
-import type { Message, InlineKeyboardMarkup } from '@mkz/telega';
+import { Telega, Context, keyboard, bold, italic } from '@mkzstyleee/telega';
+import type { Message, InlineKeyboardMarkup } from '@mkzstyleee/telega';
 
 const bot = new Telega({
   token: process.env.BOT_TOKEN!,
