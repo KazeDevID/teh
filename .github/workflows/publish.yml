@@ -28,7 +28,7 @@ jobs:
 
 
       - name: Instalasi
-        run: npm ci
+        run: npm install
 
       - name: Build package
         run: npm run build
