@@ -25,6 +25,11 @@ jobs:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
 
+
+
+      - name: Instalasi
+        run: npm ci
+
       - name: Build package
         run: npm run build
 
