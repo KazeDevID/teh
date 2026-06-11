@@ -1,6 +1,6 @@
 {
   "name": "telega",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern, production-ready Telegram Bot API library for Node.js with full TypeScript support",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
