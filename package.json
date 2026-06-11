@@ -1,6 +1,6 @@
 {
-  "name": "telega",
-  "version": "1.0.1",
+  "name": "@mkz/telega",
+  "version": "1.0.0",
   "description": "A modern, production-ready Telegram Bot API library for Node.js with full TypeScript support",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -61,10 +61,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/telega/telega.git"
+    "url": "https://github.com/KazeDevID/teh.git"
   },
   "bugs": {
-    "url": "https://github.com/telega/telega/issues"
+    "url": "https://github.com/KazeDevID/teh/issues"
   },
-  "homepage": "https://github.com/telega/telega#readme"
+  "homepage": "https://github.com/KazeDevID/teh#readme"
 }
