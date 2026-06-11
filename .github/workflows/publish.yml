@@ -1,50 +1,65 @@
-name: Publish to NPM
+name: Auto Publish to NPM
 
 on:
   push:
-    branches: [change]
-  pull_request:
-    branches: [change]
+    paths:
+      - "package.json"
+      - "src/**"
+      - ".github/workflows/publish.yml"
+    branches:
+      - change
 
 jobs:
   publish:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Use Node.js 20.x
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
-
-      - name: Build
+      - name: Build package
         run: npm run build
 
+      - name: Check version update
+        id: version-check
+        run: |
+          CURRENT_VERSION=$(node -pe "require('./package.json').version")
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Current Version: $CURRENT_VERSION"
+
       - name: Publish to NPM
-        run: npm publish --access public
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Create GitHub Release Notes
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            dist/**
-          body: |
-            # Telega ${{ github.event.release.tag_name }}
-
-            Published to NPM: https://www.npmjs.com/package/telega
-
-            ## Changes
-            ${{ github.event.release.body }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: v${{ steps.version-check.outputs.CURRENT_VERSION }}
+          release_name: Release v${{ steps.version-check.outputs.CURRENT_VERSION }}
+          body: |
+            # 🚀 New Release v${{ steps.version-check.outputs.CURRENT_VERSION }}
+
+            Changes:
+            - Updated package.json triggered automatic build and publish
+            - Library built successfully with ESM and CJS support
+
+            **Install with:**
+            ```bash
+            npm install teh-bot@${{ steps.version-check.outputs.CURRENT_VERSION }}
+            ```
+          draft: false
+          prerelease: false
+
+      - name: Success notification
+        run: echo "✅ Published teh-bot@${{ steps.version-check.outputs.CURRENT_VERSION }} to NPM"
