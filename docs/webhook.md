@@ -35,7 +35,7 @@ await bot.startWebhook({
 
 ```javascript
 import express from 'express';
-import { Telega } from 'telega';
+import { Telega } from '@mkz/telega';
 
 const app = express();
 const bot = new Telega({ token: 'YOUR_TOKEN' });
@@ -66,7 +66,7 @@ bot.client.setWebhook({
 
 ```javascript
 import fastify from 'fastify';
-import { Telega } from 'telega';
+import { Telega } from '@mkz/telega';
 
 const app = fastify();
 const bot = new Telega({ token: 'YOUR_TOKEN' });

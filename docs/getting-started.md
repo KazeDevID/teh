@@ -15,7 +15,7 @@ Create a new project and install Telega:
 mkdir my-bot
 cd my-bot
 npm init -y
-npm install telega
+npm install @mkz/telega
 ```
 
 ## Your First Bot
@@ -23,7 +23,7 @@ npm install telega
 Create an `index.js` file:
 
 ```javascript
-import { Telega } from 'telega';
+import { Telega } from '@mkz/telega';
 
 // Create bot instance
 const bot = new Telega({
@@ -85,7 +85,7 @@ BOT_TOKEN=your_bot_token_here
 Then use it in your code:
 
 ```javascript
-import { Telega } from 'telega';
+import { Telega } from '@mkz/telega';
 import 'dotenv/config';
 
 const bot = new Telega({

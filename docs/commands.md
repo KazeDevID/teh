@@ -94,7 +94,7 @@ for (const { name, handler } of commands) {
 ### Ping Command
 
 ```javascript
-import { createPingCommand } from 'telega';
+import { createPingCommand } from '@mkz/telega';
 
 bot.command('ping', createPingCommand());
 ```
@@ -102,7 +102,7 @@ bot.command('ping', createPingCommand());
 ### Help Command
 
 ```javascript
-import { createHelpCommand } from 'telega';
+import { createHelpCommand } from '@mkz/telega';
 
 bot.command('help', createHelpCommand({ commands: bot.commands }));
 ```
@@ -110,7 +110,7 @@ bot.command('help', createHelpCommand({ commands: bot.commands }));
 ### Start Command
 
 ```javascript
-import { createStartCommand } from 'telega';
+import { createStartCommand } from '@mkz/telega';
 
 bot.command('start', createStartCommand('Welcome to my bot!'));
 ```

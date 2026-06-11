@@ -5,7 +5,7 @@ Plugins extend the bot's functionality with reusable features.
 ## Installing Plugins
 
 ```javascript
-import { createSessionPlugin, createRateLimitPlugin } from 'telega';
+import { createSessionPlugin, createRateLimitPlugin } from '@mkz/telega';
 
 // Install plugins
 await bot.plugin(createSessionPlugin());
@@ -19,7 +19,7 @@ await bot.plugin(createRateLimitPlugin());
 Provides session storage for user data:
 
 ```javascript
-import { createSessionPlugin } from 'telega';
+import { createSessionPlugin } from '@mkz/telega';
 
 await bot.plugin(createSessionPlugin({
   ttl: 3600000, // Session TTL in milliseconds
@@ -37,7 +37,7 @@ bot.command('count', async (ctx) => {
 Limits requests per user:
 
 ```javascript
-import { createRateLimitPlugin } from 'telega';
+import { createRateLimitPlugin } from '@mkz/telega';
 
 await bot.plugin(createRateLimitPlugin({
   windowMs: 60000,  // 1 minute window
@@ -52,7 +52,7 @@ await bot.plugin(createRateLimitPlugin({
 Logs all updates:
 
 ```javascript
-import { createLoggingPlugin } from 'telega';
+import { createLoggingPlugin } from '@mkz/telega';
 
 await bot.plugin(createLoggingPlugin((level, message) => {
   console.log(`[${level.toUpperCase()}] ${message}`);
@@ -64,7 +64,7 @@ await bot.plugin(createLoggingPlugin((level, message) => {
 Automatically replies to matching messages:
 
 ```javascript
-import { createAutoReplyPlugin } from 'telega';
+import { createAutoReplyPlugin } from '@mkz/telega';
 
 await bot.plugin(createAutoReplyPlugin([
   { match: 'hello', reply: 'Hi there!' },

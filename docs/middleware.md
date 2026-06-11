@@ -39,7 +39,7 @@ bot.on('message', async (ctx) => {
 Only run for specific update types:
 
 ```javascript
-import { onlyPrivate, onlyGroups } from 'telega';
+import { onlyPrivate, onlyGroups } from '@mkz/telega';
 
 // Only for private chats
 bot.use(async (ctx, next) => {
@@ -109,7 +109,7 @@ bot.use(async (ctx, next) => {
 Using the session plugin:
 
 ```javascript
-import { createSessionPlugin } from 'telega';
+import { createSessionPlugin } from '@mkz/telega';
 
 await bot.plugin(createSessionPlugin());
 
@@ -132,7 +132,7 @@ bot.command('count', async (ctx) => {
 Using the rate limit plugin:
 
 ```javascript
-import { createRateLimitPlugin } from 'telega';
+import { createRateLimitPlugin } from '@mkz/telega';
 
 await bot.plugin(createRateLimitPlugin({
   windowMs: 60000, // 1 minute
@@ -144,7 +144,7 @@ await bot.plugin(createRateLimitPlugin({
 ## Middleware Helpers
 
 ```javascript
-import { onUpdateType, onlyUsers, onlyChats } from 'telega';
+import { onUpdateType, onlyUsers, onlyChats } from '@mkz/telega';
 
 // Only for messages
 bot.use(handler, onUpdateType('message'));
