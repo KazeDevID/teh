@@ -7,7 +7,7 @@ on:
       - "src/**"
       - ".github/workflows/publish.yml"
     branches:
-      - main
+      - change
 
 jobs:
   publish:
@@ -24,6 +24,11 @@ jobs:
         with:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
+
+
+
+      - name: Instalasi
+        run: npm install
 
       - name: Build package
         run: npm run build
@@ -63,3 +68,4 @@ jobs:
 
       - name: Success notification
         run: echo "✅ Published teh-bot@${{ steps.version-check.outputs.CURRENT_VERSION }} to NPM"
+

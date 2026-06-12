@@ -1,24 +1,14 @@
-# Source files
 src/
-scripts/
+tests/
 examples/
-
-# Configuration
+docs/
 .github/
-.gitignore
-.env*
-
-# IDE & OS
-.vscode/
-.idea/
-*.swp
-.DS_Store
-
-# Documentation & Testing
-*.md
-!README.md
-!LICENSE
-
-# Development
-node_modules/
 *.log
+coverage/
+.idea/
+.vscode/
+tsconfig.json
+tsup.config.ts
+.eslintrc.json
+.prettierrc
+vitest.config.ts

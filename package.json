@@ -1,51 +1,70 @@
 {
-  "name": "teh-bot",
-  "version": "1.0.7-a.3",
-  "description": "Lightweight, high-performance Telegram Bot API library with zero dependencies. Supports polling, webhooks, and all Telegram Bot API methods.",
-  "keywords": [
-    "telegram",
-    "bot",
-    "api",
-    "telegram-bot",
-    "telegram-bot-api",
-    "lightweight",
-    "polling",
-    "webhook",
-    "nodejs",
-    "typescript",
-    "esm",
-    "cjs"
-  ],
-  "homepage": "https://github.com/kazedevid/teh#readme",
-  "bugs": {
-    "url": "https://github.com/kazedevid/teh/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kazedevid/teh.git"
-  },
-  "license": "MIT",
-  "author": "KazeDevID",
-  "type": "module",
+  "name": "@mkzstyleee/telega",
+  "version": "1.0.1",
+  "description": "A modern, production-ready Telegram Bot API library for Node.js with full TypeScript support",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "node scripts/build.cjs",
-    "dev": "node examples/simple-bot.js",
-    "prepublish": "npm run build",
-    "test": "node scripts/test.cjs"
-  }
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "keywords": [
+    "telegram",
+    "telegram-bot",
+    "telegram-api",
+    "bot",
+    "telegram-bot-api",
+    "nodejs",
+    "typescript",
+    "esm",
+    "commonjs"
+  ],
+  "author": "KazeDevID",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KazeDevID/teh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KazeDevID/teh/issues"
+  },
+  "homepage": "https://github.com/KazeDevID/teh#readme"
 }
