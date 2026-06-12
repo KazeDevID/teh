@@ -19,13 +19,13 @@ A modern, production-ready Telegram Bot API library for Node.js with full TypeSc
 ## Installation
 
 ```bash
-npm install @mkz/telega
+npm install @mkzstyleee/telega
 ```
 
 ## Quick Start
 
 ```javascript
-import { Telega } from '@mkz/telega';
+import { Telega } from '@mkzstyleee/telega';
 
 const bot = new Telega({
   token: 'YOUR_BOT_TOKEN',
@@ -93,7 +93,7 @@ await bot.sendMessage(chatId, '*Bold* and _italic_ text', {
 ### Keyboard Builder
 
 ```javascript
-import { keyboard } from '@mkz/telega';
+import { keyboard } from '@mkzstyleee/telega';
 
 const inlineKeyboard = keyboard()
   .text('Button 1', 'callback_1')
@@ -204,7 +204,7 @@ bot.on('message', async (ctx) => {
 ### Plugins
 
 ```javascript
-import { createSessionPlugin, createRateLimitPlugin } from '@mkz/telega';
+import { createSessionPlugin, createRateLimitPlugin } from '@mkzstyleee/telega';
 
 // Session plugin
 await bot.plugin(createSessionPlugin({ ttl: 3600000 }));
